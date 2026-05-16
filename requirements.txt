@@ -46,3 +46,4 @@ beancount-lazy-plugins @ git+https://github.com/Evernight/beancount-lazy-plugins
 beancount-importers @ git+https://github.com/Evernight/beancount-importers@06fcd1200d3825eb7a0669f35bd313b2efcaf8cd
 
 beancount-periodic
+beancounttools
