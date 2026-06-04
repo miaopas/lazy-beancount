@@ -1,5 +1,7 @@
 FROM python:3.12-slim AS base
 
+COPY --from=docker.io/astral/uv:0.11.17 /uv /uvx /bin/
+
 ENV PATH="/opt/venv/bin:$PATH"
 ENV PYTHONUNBUFFERED=1
 
@@ -17,8 +19,10 @@ RUN adduser --uid 1245 beancount-user \
     && apt-get autoremove --purge  -y \
     && rm -rf /var/lib/apt/lists/*
 COPY ./requirements.txt /tmp/requirements.txt
-RUN python -m venv /opt/venv \
-    && pip3 install --no-cache-dir -r /tmp/requirements.txt 
+RUN uv venv /opt/venv
+ENV VIRTUAL_ENV=/opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
+RUN uv pip install --no-cache -r /tmp/requirements.txt
 
 ENV PYTHONPATH="/beancount:/beancount/beangulp"
 ENV PATH="/beancount/:$PATH"
@@ -40,8 +44,7 @@ CMD [ "/beancount/run_daemons.sh" ]
 
 FROM base AS extra
 COPY ./requirements-extra.txt /tmp/requirements-extra.txt
-RUN python -m venv /opt/venv \
-    && pip3 install --no-cache-dir -r /tmp/requirements-extra.txt 
+RUN uv pip install --no-cache -r /tmp/requirements-extra.txt
 
 WORKDIR /workspace
 USER beancount-user
