@@ -1,1 +1,4 @@
-beancount-plugin-tax-uk @ git+https://github.com/Evernight/beancount-plugin-tax-uk@0e5490e6378d192799d8212795f943f727f739a5
+fava_budget_freedom @ git+https://github.com/Leon2xiaowu/fava_budget_freedom.git
+
+beancount-periodic
+tariochbctools
